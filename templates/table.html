@@ -67,7 +67,8 @@
                     <th>Elo Rating</th>
                     <th>Champion (%)</th>
                     <th>Top 4 (%)</th>
-                    <th>Relegated (%)</th>
+                    <th>Relegation Playoffs (%)</th>
+                    <th>Relegation (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,7 +76,7 @@
                 <tr>
                     <td>{{ row.team }}</td>
                     <td>{{ row.elo }}</td>
-                    {% for col in ['title_odds', 'top_4_odds', 'relegation_odds'] %}
+                    {% for col in ['title_odds', 'top_4_odds', 'relegation_playoff_odds', 'direct_relegation_odds'] %}
                     {% set val = 100*row[col] %}
                     {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
                     <td class="odds-cell" style="background-color: {{ bg_color }};">

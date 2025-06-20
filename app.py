@@ -8,9 +8,15 @@ app = Flask(__name__)
 def get_football_data(league):
     engine = db.get_postgres_engine()
     query = f"""
-    SELECT * 
-    FROM sim_standings s 
-    LEFT JOIN current_elos c 
+    SELECT 
+        team,
+        elo,
+        title_odds,
+        top_4_odds,
+        relegation_playoff_odds,
+        direct_relegation_odds
+    FROM public.sim_standings s 
+    LEFT JOIN public.current_elos c 
     ON s.team = c.club
     WHERE s.country='{league}'
     """
