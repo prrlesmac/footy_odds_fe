@@ -81,12 +81,12 @@
                 {% for row in data %}
                 <tr>
                     <td>{{ row.team }}</td>
-                    <td>{{ row.elo }}</td>
+                    <td>{{ row.elo | round | int }}</td>
                     {% for col in ['title_odds', 'top_4_odds', 'relegation_playoff_odds', 'direct_relegation_odds'] %}
                     {% set val = 100*row[col] %}
                     {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
                     <td class="odds-cell" style="background-color: {{ bg_color }};">
-                        {{ "%.1f"|format(val) }}
+                        {{ "%d"|format(val|round) }}
                     </td>
                     {% endfor %}
                 </tr>
