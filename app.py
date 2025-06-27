@@ -13,7 +13,7 @@ def get_football_data(league):
         elo,
         title_odds,
         top_4_odds,
-        relegation_playoff_odds,
+        {'relegation_playoff_odds,' if league in ['GER','FRA'] else ''}
         direct_relegation_odds
     FROM public.sim_standings s 
     LEFT JOIN public.current_elos c 
@@ -28,6 +28,7 @@ def index():
     leagues = list(config.league_mapping.keys())
     selected_league = request.args.get('league', leagues[0])
     df = get_football_data(config.league_mapping[selected_league])
+    data=df.to_dict(orient='records')
     return render_template(
         'table.html',
         data=df.to_dict(orient='records'),

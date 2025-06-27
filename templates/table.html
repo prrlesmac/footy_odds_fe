@@ -66,15 +66,24 @@
             </select>
         </form>
 
+        {% set has_playoff = ('relegation_playoff_odds' in data[0]) %}
+        {% if has_playoff %}
+        {% set odds_cols = ['title_odds', 'top_4_odds', 'relegation_playoff_odds', 'direct_relegation_odds'] %}
+        {% else %}
+        {% set odds_cols = ['title_odds', 'top_4_odds', 'direct_relegation_odds'] %}
+        {% endif %}
+
         <table id="oddsTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Team</th>
-                    <th>Elo Rating</th>
-                    <th>Champion (%)</th>
-                    <th>Top 4 (%)</th>
-                    <th>Relegation Playoffs (%)</th>
-                    <th>Direct Relegation (%)</th>
+                    <th style="width:150px;">Team</th>
+                    <th style="width:100px;">Elo Rating</th>
+                    <th style="width:120px;">Champion (%)</th>
+                    <th style="width:120px;">Top 4 (%)</th>
+                    {% if has_playoff %}
+                    <th style="width:120px;">Relegation Playoffs (%)</th>
+                    {% endif %}
+                    <th style="width:120px;">Direct Relegation (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,7 +91,7 @@
                 <tr>
                     <td>{{ row.team }}</td>
                     <td>{{ row.elo | round | int }}</td>
-                    {% for col in ['title_odds', 'top_4_odds', 'relegation_playoff_odds', 'direct_relegation_odds'] %}
+                    {% for col in odds_cols %}
                     {% set val = 100*row[col] %}
                     {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
                     <td class="odds-cell" style="background-color: {{ bg_color }};">
