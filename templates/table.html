@@ -66,11 +66,11 @@
             </select>
         </form>
 
-        {% set has_playoff = ('relegation_playoff_odds' in data[0]) %}
+        {% set has_playoff = ('relegation_playoff' in data[0]) %}
         {% if has_playoff %}
-        {% set odds_cols = ['title_odds', 'top_4_odds', 'relegation_playoff_odds', 'direct_relegation_odds'] %}
+        {% set odds_cols = ['champion', 'top_4', 'relegation_playoff', 'relegation_direct'] %}
         {% else %}
-        {% set odds_cols = ['title_odds', 'top_4_odds', 'direct_relegation_odds'] %}
+        {% set odds_cols = ['champion', 'top_4', 'relegation_direct'] %}
         {% endif %}
 
         <table id="oddsTable" class="table table-bordered table-hover">

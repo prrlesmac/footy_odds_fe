@@ -11,14 +11,14 @@ def get_football_data(league):
     SELECT 
         team,
         elo,
-        title_odds,
-        top_4_odds,
-        {'relegation_playoff_odds,' if league in ['GER','FRA'] else ''}
-        direct_relegation_odds
-    FROM public.sim_standings s 
+        champion,
+        top_4,
+        {'relegation_playoff,' if league in ['GER','FRA'] else ''}
+        relegation_direct
+    FROM public.sim_standings_dom s 
     LEFT JOIN public.current_elos c 
     ON s.team = c.club
-    WHERE s.country='{league}'
+    WHERE s.league='{league}'
     """
     standings = pd.read_sql(query, engine)
     return standings
