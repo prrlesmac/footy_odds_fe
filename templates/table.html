@@ -67,10 +67,16 @@
         </form>
 
         {% set has_playoff = ('relegation_playoff' in data[0]) %}
+        {% set is_continental = (selected_league in ['UEFA Champions League', 'UEFA Europa League', 'UEFA Conference
+        League']) %}
+        {% if is_continental %}
+        {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','po_champion'] %}
+        {% else %}
         {% if has_playoff %}
         {% set odds_cols = ['champion', 'top_4', 'relegation_playoff', 'relegation_direct'] %}
         {% else %}
         {% set odds_cols = ['champion', 'top_4', 'relegation_direct'] %}
+        {% endif %}
         {% endif %}
 
         <table id="oddsTable" class="table table-bordered table-hover">
@@ -78,12 +84,21 @@
                 <tr>
                     <th style="width:150px;">Team</th>
                     <th style="width:100px;">Elo Rating</th>
+                    {% if is_continental %}
+                    <th style="width:120px;">Knockout Round (%)</th>
+                    <th style="width:120px;">Round of 16 (%)</th>
+                    <th style="width:120px;">Quarterfinal (%)</th>
+                    <th style="width:120px;">Semifinal (%)</th>
+                    <th style="width:120px;">Final (%)</th>
+                    <th style="width:120px;">Champion (%)</th>
+                    {% else %}
                     <th style="width:120px;">Champion (%)</th>
                     <th style="width:120px;">Top 4 (%)</th>
                     {% if has_playoff %}
                     <th style="width:120px;">Relegation Playoffs (%)</th>
                     {% endif %}
                     <th style="width:120px;">Direct Relegation (%)</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
