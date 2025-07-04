@@ -67,8 +67,7 @@
         </form>
 
         {% set has_playoff = ('relegation_playoff' in data[0]) %}
-        {% set is_continental = (selected_league in ['UEFA Champions League', 'UEFA Europa League', 'UEFA Conference
-        League']) %}
+        {% set is_continental = (selected_league.startswith('UEFA')) %}
         {% if is_continental %}
         {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','po_champion'] %}
         {% else %}
