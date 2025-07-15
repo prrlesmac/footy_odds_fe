@@ -1,10 +1,10 @@
 league_mapping = {
-    'UEFA Champions League': 'UCL',
-    'UEFA Europa League': 'UEL',
-    'UEFA Conference League': 'UECL',
-    'Premier League (England)': 'ENG',
-    'La Liga (Spain)': 'ESP',
-    'Serie A (Italy)': 'ITA',
-    'Bundesliga (Germany)': 'GER',
-    'Ligue 1 (France)': 'FRA',
+   'UCL': 'UEFA Champions League',
+   'UEL': 'UEFA Europa League', 
+   'UECL': 'UEFA Conference League',
+   'ENG': 'Premier League (England)',
+   'ESP': 'La Liga (Spain)',
+   'ITA': 'Serie A (Italy)',
+   'GER': 'Bundesliga (Germany)',
+   'FRA': 'Ligue 1 (France)'
 }

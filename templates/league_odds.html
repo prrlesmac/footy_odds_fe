@@ -56,15 +56,24 @@
 <body>
     <div class="table-container">
         <h3 class="mb-4">Football League Predictions</h3>
-
-        <form method="get" id="leagueForm">
+        <button type="button" class="btn btn-secondary mb-3" onclick="window.location.href='/'">
+            &larr; Back to Home
+        </button>
+        <form onsubmit="return false;">
             <label for="league">Select League:</label>
-            <select name="league" id="league" onchange="document.getElementById('leagueForm').submit();">
+            <select name="league" id="league" onchange="redirectToLeague();">
                 {% for league in leagues %}
                 <option value="{{ league }}" {% if league==selected_league %}selected{% endif %}>{{ league }}</option>
                 {% endfor %}
             </select>
         </form>
+        <script>
+            function redirectToLeague() {
+                var league = document.getElementById('league').value;
+                var encodedLeague = encodeURIComponent(league);
+                window.location.href = '/league/' + encodedLeague;
+            }
+        </script>
 
         {% set has_playoff = ('relegation_playoff' in data[0]) %}
         {% set is_continental = (selected_league.startswith('UEFA')) %}
@@ -116,7 +125,11 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="text-muted mt-2" style="font-size: 0.875rem;">
+            Last Updated On: {{ updated_at.strftime('%Y-%m-%d %H:%M UTC') }}
+        </div>
     </div>
+
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
