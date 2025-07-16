@@ -18,3 +18,12 @@ def get_postgres_engine():
 
     conn_str = f"postgresql+psycopg://{user}:{password}@{host}:{port}/{dbname}"
     return create_engine(conn_str)
+
+
+def get_sql_data(engine, query):
+
+    with engine.connect() as conn:
+        result = conn.execute(query)
+        rows = result.fetchall() 
+
+    return rows

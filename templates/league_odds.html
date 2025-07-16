@@ -55,7 +55,7 @@
 
 <body>
     <div class="table-container">
-        <h3 class="mb-4">Football League Predictions</h3>
+        <h3 class="mb-4">Football League Title Odds</h3>
         <button type="button" class="btn btn-secondary mb-3" onclick="window.location.href='/'">
             &larr; Back to Home
         </button>
@@ -75,15 +75,15 @@
             }
         </script>
 
-        {% set has_playoff = ('relegation_playoff' in data[0]) %}
+        {% set has_playoff = (data[0]['relegation_playoff'] is not none) %}
         {% set is_continental = (selected_league.startswith('UEFA')) %}
         {% if is_continental %}
-        {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','po_champion'] %}
+        {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
         {% else %}
         {% if has_playoff %}
-        {% set odds_cols = ['champion', 'top_4', 'relegation_playoff', 'relegation_direct'] %}
+        {% set odds_cols = ['relegation_direct', 'relegation_playoff', 'top_4', 'champion'] %}
         {% else %}
-        {% set odds_cols = ['champion', 'top_4', 'relegation_direct'] %}
+        {% set odds_cols = ['relegation_direct', 'top_4', 'champion'] %}
         {% endif %}
         {% endif %}
 
@@ -100,20 +100,20 @@
                     <th style="width:120px;">Final (%)</th>
                     <th style="width:120px;">Champion (%)</th>
                     {% else %}
-                    <th style="width:120px;">Champion (%)</th>
-                    <th style="width:120px;">Top 4 (%)</th>
+                    <th style="width:120px;">Direct Relegation (%)</th>
                     {% if has_playoff %}
                     <th style="width:120px;">Relegation Playoffs (%)</th>
                     {% endif %}
-                    <th style="width:120px;">Direct Relegation (%)</th>
+                    <th style="width:120px;">Top 4 (%)</th>
+                    <th style="width:120px;">Champion (%)</th>
                     {% endif %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in data %}
                 <tr>
-                    <td>{{ row.team }}</td>
-                    <td>{{ row.elo | round | int }}</td>
+                    <td>{{ row['team'] }}</td>
+                    <td>{{ row['elo'] | round | int }}</td>
                     {% for col in odds_cols %}
                     {% set val = 100*row[col] %}
                     {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}

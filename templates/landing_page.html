@@ -36,29 +36,32 @@
     <div class="container mt-5">
 
         <h2 class="mb-4 text-center">Football League Title Odds</h2>
-        {% for league in league_data %}
-        {% set teams = league.teams %}
+        {% for league, items in league_data.items() %}
+        {% set teams = items %}
         <div class="league-section">
             <div class="league-title">
-                <a href="{{ url_for('league_detail', league_name=league.name) }}"
+                <a href="{{ url_for('league_detail', league_name=league) }}"
                     style="color: rgb(0, 0, 0); text-decoration: none;">
-                    {{ league.name }}
+                    {{ league }}
                 </a>
             </div>
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover" width="500"
+                style="width: 500px !important; table-layout: fixed;">
                 <thead class="table-light">
                     <tr>
-                        <th>Team</th>
-                        <th>Title Odds (%)</th>
+                        <th width="250">Team</th>
+                        <th width="250">Elo Rating</th>
+                        <th width="250">Champion (%)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for team in teams %}
-                    {% set val = team.odds * 100 %}
-                    {% set bg_color = "hsl(120, 70%, " ~ (100 - val * 0.6) ~ "%)" %}
+                    {% for team in teams[:5] %}
+                    {% set val = team['champion'] * 100 %}
+                    {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
                     <tr>
-                        <td>{{team.name}}</td>
-                        <td class="odds-cell" style="background-color: {{ bg_color }};">
+                        <td width="250">{{team['team']}}</td>
+                        <td width="250">{{team['elo'] | round | int }}</td>
+                        <td class="odds-cell" width="250" style="background-color: {{ bg_color }};">
                             {{ "%0.1f"|format(val) }}
                         </td>
                     </tr>
