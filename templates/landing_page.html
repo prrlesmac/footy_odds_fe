@@ -71,25 +71,39 @@
                     {{ league }} →
                 </a>
             </div>
+            {% set is_continental = (league.startswith('UEFA')) %}
+            {% if is_continental %}
+            {% set odds_cols = ['po_r4','po_r2','champion'] %}
+            {% else %}
+            {% set odds_cols = ['top_4','champion'] %}
+            {% endif %}
             <table class="table table-bordered table-hover" width="500"
                 style="width: 500px !important; table-layout: fixed;">
                 <thead class="table-light">
                     <tr>
-                        <th width="250">Team</th>
-                        <th width="250">Elo Rating</th>
-                        <th width="250">Champion (%)</th>
+                        <th width="200">Team</th>
+                        <th width="120">Elo Rating</th>
+                        {% if is_continental %}
+                        <th width="120">Semifinal (%)</th>
+                        <th width="120">Final (%)</th>
+                        {% else %}
+                        <th width="120">Top 4 (%)</th>
+                        {% endif %}
+                        <th width="120">Champion (%)</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for team in teams[:5] %}
-                    {% set val = team['champion'] * 100 %}
-                    {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
                     <tr>
                         <td width="250">{{team['team']}}</td>
-                        <td width="250">{{team['elo'] | round | int }}</td>
-                        <td class="odds-cell" width="250" style="background-color: {{ bg_color }};">
-                            {{ "%0.1f"|format(val) }}
+                        <td width="120">{{team['elo'] | round | int }}</td>
+                        {% for col in odds_cols %}
+                        {% set val = 100*team[col] %}
+                        {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                        <td class="odds-cell" width="120" style="background-color: {{ bg_color }};">
+                            {{ "%d"|format(val|round) }}
                         </td>
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -18,6 +18,10 @@ def get_league_data(league_mapping):
     for item in dict_list:
         league_dict[league_mapping[item['league']]].append(item)
 
+    order_list = list(league_mapping.values())
+    # Sort dictionary keys by their position in the external list
+    league_dict = {k: league_dict[k] for k in order_list if k in league_dict}
+
     return league_dict
 
 league_data = get_league_data(config.league_mapping)
