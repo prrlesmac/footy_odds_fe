@@ -23,11 +23,38 @@
             margin-bottom: 20px;
             font-weight: bold;
             font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .league-title a {
+            color: #0066cc !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .league-title a:hover {
+            background-color: #f0f8ff;
+            color: #0052a3 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
         }
 
         .odds-cell {
             font-weight: 500;
             text-align: center;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table {
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -40,9 +67,8 @@
         {% set teams = items %}
         <div class="league-section">
             <div class="league-title">
-                <a href="{{ url_for('league_detail', league_name=league) }}"
-                    style="color: rgb(0, 0, 0); text-decoration: none;">
-                    {{ league }}
+                <a href="{{ url_for('league_detail', league_name=league) }}">
+                    {{ league }} →
                 </a>
             </div>
             <table class="table table-bordered table-hover" width="500"
