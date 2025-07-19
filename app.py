@@ -24,11 +24,10 @@ def get_league_data(league_mapping):
 
     return league_dict
 
-league_data = get_league_data(config.league_mapping)
-
 @app.route('/')
 #have main page with summary table of odds for all leagues
 def index():
+    league_data = get_league_data(config.league_mapping)
     return render_template(
         'landing_page.html',
         league_data=league_data
@@ -36,6 +35,7 @@ def index():
 
 @app.route('/league/<league_name>')
 def league_detail(league_name):
+    league_data = get_league_data(config.league_mapping)
     data = league_data[league_name]
     mapping = {v: k for k, v in config.league_mapping.items()}
     leagues = list(mapping.keys())
