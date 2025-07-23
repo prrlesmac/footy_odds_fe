@@ -47,5 +47,11 @@ def league_detail(league_name):
         selected_league=league_name,
         updated_at=data[0]['updated_at'] if 'updated_at' in data[0] else None,
     )
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for monitoring"""
+    return {'status': 'healthy', 'app': 'odds-app'}, 200
+
 if __name__ == '__main__':
     app.run(debug=True, port=8050)
