@@ -26,11 +26,10 @@ jobs:
         ssh -i ~/.ssh/id_rsa -p ${{ secrets.EC2_SSH_PORT || 22 }} ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           set -e
 
-          echo "Pulling latest code..."
           cd /home/${{ secrets.EC2_USER }}/${{ secrets.APP_NAME || 'myapp' }}
           git pull origin main
 
-          echo "Get secrets from env file"
+          echo "Updating .env"
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
@@ -43,11 +42,16 @@ jobs:
           echo "Stopping and removing old container..."
           docker stop ${{ secrets.APP_NAME || 'myapp' }} || true
           docker rm ${{ secrets.APP_NAME || 'myapp' }} || true
-          
-          echo "Running new container..."
-          docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} -p 8050:8050 ${{ secrets.APP_NAME || 'myapp' }}
 
-          echo "Deleting unused images"
+          echo "Running new container internally (no port exposure)..."
+          docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} ${{ secrets.APP_NAME || 'myapp' }}
+
+          echo "Configuring NGINX..."
+          sudo cp nginx/default.conf /etc/nginx/sites-available/default.conf
+          sudo ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
+          sudo nginx -t && sudo systemctl reload nginx
+
+          echo "Cleaning up unused Docker images"
           docker image prune -af
-
         EOF
+
