@@ -44,7 +44,7 @@ jobs:
           docker rm ${{ secrets.APP_NAME || 'myapp' }} || true
 
           echo "Running new container internally (no port exposure)..."
-          docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} ${{ secrets.APP_NAME || 'myapp' }}
+          docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} --network=host ${{ secrets.APP_NAME || 'myapp' }}
 
           echo "Configuring NGINX..."
           sudo cp nginx/default.conf /etc/nginx/sites-available/default.conf
