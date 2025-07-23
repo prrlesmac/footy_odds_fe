@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Football League Odds</title>
+    <title>Probabilistic Forecasts for Major Sports League</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
@@ -17,13 +17,39 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
-        .table-container {
+        .main-container {
             margin: 40px auto;
-            max-width: 960px;
+            max-width: 1200px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table-container {
             background: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .navigation-controls {
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            margin-bottom: 15px;
         }
 
         thead th {
@@ -47,89 +73,99 @@
         select {
             width: 250px;
             padding: 6px 12px;
-            margin-bottom: 20px;
             font-size: 1rem;
         }
     </style>
 </head>
 
 <body>
-    <div class="table-container">
-        <h3 class="mb-4">Football League Title Odds</h3>
-        <button type="button" class="btn btn-secondary mb-3" onclick="window.location.href='/'">
-            &larr; Back to Home
-        </button>
-        <form onsubmit="return false;">
-            <label for="league">Select League:</label>
-            <select name="league" id="league" onchange="redirectToLeague();">
-                {% for league in leagues %}
-                <option value="{{ league }}" {% if league==selected_league %}selected{% endif %}>{{ league }}</option>
-                {% endfor %}
-            </select>
-        </form>
-        <script>
-            function redirectToLeague() {
-                var league = document.getElementById('league').value;
-                var encodedLeague = encodeURIComponent(league);
-                window.location.href = '/league/' + encodedLeague;
-            }
-        </script>
+    <div class="main-container">
+        <div class="page-header">
+            <h2><a href="/" style="color: #333; text-decoration: none;">oddsinshadow</a></h2>
+            <h4 class="text-start mb-3 text-muted">Probabilistic forecast for major football leagues</h4>
+        </div>
 
-        {% set has_playoff = (data[0]['relegation_playoff'] is not none) %}
-        {% set is_continental = (selected_league.startswith('UEFA')) %}
-        {% if is_continental %}
-        {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
-        {% else %}
-        {% if has_playoff %}
-        {% set odds_cols = ['relegation_direct', 'relegation_playoff', 'top_4', 'champion'] %}
-        {% else %}
-        {% set odds_cols = ['relegation_direct', 'top_4', 'champion'] %}
-        {% endif %}
-        {% endif %}
-
-        <table id="oddsTable" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th style="width:150px;">Team</th>
-                    <th style="width:100px;">Elo Rating</th>
-                    {% if is_continental %}
-                    <th style="width:120px;">Knockout Round (%)</th>
-                    <th style="width:120px;">Round of 16 (%)</th>
-                    <th style="width:120px;">Quarterfinal (%)</th>
-                    <th style="width:120px;">Semifinal (%)</th>
-                    <th style="width:120px;">Final (%)</th>
-                    <th style="width:120px;">Champion (%)</th>
-                    {% else %}
-                    <th style="width:120px;">Direct Relegation (%)</th>
-                    {% if has_playoff %}
-                    <th style="width:120px;">Relegation Playoffs (%)</th>
-                    {% endif %}
-                    <th style="width:120px;">Top 4 (%)</th>
-                    <th style="width:120px;">Champion (%)</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in data %}
-                <tr>
-                    <td>{{ row['team'] }}</td>
-                    <td>{{ row['elo'] | round | int }}</td>
-                    {% for col in odds_cols %}
-                    {% set val = 100*row[col] %}
-                    {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
-                    <td class="odds-cell" style="background-color: {{ bg_color }};">
-                        {{ "%d"|format(val|round) }}
-                    </td>
+        <div class="table-container">
+            {% set has_playoff = (data[0]['relegation_playoff'] is not none) %}
+            {% set is_continental = (selected_league.startswith('UEFA')) %}
+            {% if is_continental %}
+            {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
+            {% else %}
+            {% if has_playoff %}
+            {% set odds_cols = ['relegation_direct', 'relegation_playoff', 'top_4', 'champion'] %}
+            {% else %}
+            {% set odds_cols = ['relegation_direct', 'top_4', 'champion'] %}
+            {% endif %}
+            {% endif %}
+            <div class="navigation-controls">
+                <div class="back-button">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">
+                        &larr; Back to Home
+                    </button>
+                </div>
+                <form onsubmit="return false;">
+                    <label for="league">Select League:</label>
+                    <select name="league" id="league" class="form-select d-inline-block ms-2"
+                        onchange="redirectToLeague();">
+                        {% for league in leagues %}
+                        <option value="{{ league }}" {% if league==selected_league %}selected{% endif %}>{{ league }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            <table id="oddsTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:200px;">Team</th>
+                        <th style="width:100px;">Elo Rating</th>
+                        {% if is_continental %}
+                        <th style="width:120px;">Knockout Round (%)</th>
+                        <th style="width:120px;">Round of 16 (%)</th>
+                        <th style="width:120px;">Quarterfinal (%)</th>
+                        <th style="width:120px;">Semifinal (%)</th>
+                        <th style="width:120px;">Final (%)</th>
+                        <th style="width:120px;">Champion (%)</th>
+                        {% else %}
+                        <th style="width:120px;">Direct Relegation (%)</th>
+                        {% if has_playoff %}
+                        <th style="width:120px;">Relegation Playoffs (%)</th>
+                        {% endif %}
+                        <th style="width:120px;">Top 4 (%)</th>
+                        <th style="width:120px;">Champion (%)</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row['team'] }}</td>
+                        <td>{{ row['elo'] | round | int }}</td>
+                        {% for col in odds_cols %}
+                        {% set val = 100*row[col] %}
+                        {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                        <td class="odds-cell" style="background-color: {{ bg_color }};">
+                            {{ "%d"|format(val|round) }}
+                        </td>
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div class="text-muted mt-2" style="font-size: 0.875rem;">
-            Last Updated On: {{ updated_at.strftime('%Y-%m-%d %H:%M UTC') }}
+                </tbody>
+            </table>
+
+            <div class="last-updated">
+                Last Updated: {{ updated_at.strftime('%Y-%m-%d %H:%M UTC') }}
+            </div>
         </div>
     </div>
 
+    <script>
+        function redirectToLeague() {
+            var league = document.getElementById('league').value;
+            var encodedLeague = encodeURIComponent(league);
+            window.location.href = '/league/' + encodedLeague;
+        }
+    </script>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
