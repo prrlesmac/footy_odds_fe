@@ -56,7 +56,7 @@ jobs:
               echo "Flask app is responding on port 8050"
           else
               echo "WARNING: Flask app not responding on port 8050"
-              docker-compose logs odds-app
+              docker-compose logs ${{ secrets.APP_NAME || 'myapp' }}
           fi
 
           echo "Configuring NGINX..."
