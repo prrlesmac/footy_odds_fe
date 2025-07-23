@@ -47,8 +47,8 @@ jobs:
           docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} --network=host ${{ secrets.APP_NAME || 'myapp' }}
 
           echo "Configuring NGINX..."
-          sudo cp nginx/default.conf /etc/nginx/sites-available/default.conf
-          sudo ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
+          sudo cp nginx/odds-app.conf /etc/nginx/sites-available/odds-app
+          sudo ln -sf /etc/nginx/sites-available/odds-app /etc/nginx/sites-enabled/odds-app
           sudo nginx -t && sudo systemctl reload nginx
 
           echo "Cleaning up unused Docker images"
