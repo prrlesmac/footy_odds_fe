@@ -26,57 +26,28 @@ jobs:
         ssh -i ~/.ssh/id_rsa -p ${{ secrets.EC2_SSH_PORT || 22 }} ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           set -e
 
+          echo "Pulling latest code..."
           cd /home/${{ secrets.EC2_USER }}/${{ secrets.APP_NAME || 'myapp' }}
           git pull origin main
 
-          # Create .env file
-          echo "DB_USER=${{ secrets.DB_USER }}" > .env
+          echo "Get secrets from env file"
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
 
-          # Install docker-compose if not exists
-          if ! command -v docker-compose &> /dev/null; then
-              sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-          fi
+          echo "Building Docker image..."
+          docker build -t ${{ secrets.APP_NAME || 'myapp' }} .
 
-          echo "Stopping existing containers..."
-          docker-compose down || true
-
-          echo "Building and starting new containers..."
-          docker-compose up -d --build
-
-          # Wait for container to be ready
-          sleep 10
-
-          # Test if Flask app is responding
-          if curl -f localhost:8050 > /dev/null 2>&1; then
-              echo "Flask app is responding on port 8050"
-          else
-              echo "WARNING: Flask app not responding on port 8050"
-              docker-compose logs ${{ secrets.APP_NAME || 'myapp' }}
-          fi
-
-          echo "Configuring NGINX..."
-          sudo cp nginx/odds-app.conf /etc/nginx/sites-available/odds-app
-          sudo ln -sf /etc/nginx/sites-available/odds-app /etc/nginx/sites-enabled/odds-app
+          echo "Stopping and removing old container..."
+          docker stop ${{ secrets.APP_NAME || 'myapp' }} || true
+          docker rm ${{ secrets.APP_NAME || 'myapp' }} || true
           
-          # Remove default nginx site if it exists
-          sudo rm -f /etc/nginx/sites-enabled/default
-          
-          # Test and reload nginx
-          if sudo nginx -t; then
-              sudo systemctl reload nginx
-              echo "Nginx reloaded successfully"
-          else
-              echo "Nginx configuration test failed"
-              exit 1
-          fi
+          echo "Running new container..."
+          docker run -d --name ${{ secrets.APP_NAME || 'myapp' }} -p 8050:8050 ${{ secrets.APP_NAME || 'myapp' }}
 
-          echo "Cleaning up unused Docker images"
+          echo "Deleting unused images"
           docker image prune -af
 
-          echo "Deployment completed successfully!"
         EOF
