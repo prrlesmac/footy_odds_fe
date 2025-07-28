@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import pandas as pd
 import db
 import queries
 import config
@@ -39,7 +38,6 @@ def league_detail(league_name):
     data = league_data[league_name]
     mapping = {v: k for k, v in config.league_mapping.items()}
     leagues = list(mapping.keys())
-    #breakpoint()
     return render_template(
         'league_odds.html',
         data=data,
