@@ -17,6 +17,46 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #f0f8ff;
+            color: #0066cc !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            background-color: #0066cc;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            color: #333 !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand:hover {
+            color: #0066cc !important;
+        }
+
         .main-container {
             margin: 40px auto;
             max-width: 1200px;
@@ -31,10 +71,10 @@
             text-align: left;
         }
 
-        .page-header h2 {
+        .page-header h4 {
             margin: 0;
-            font-weight: 600;
-            color: #333;
+            font-weight: 400;
+            color: #6c757d;
         }
 
         .table-container {
@@ -79,9 +119,31 @@
 </head>
 
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">oddsinshadow</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/league">Forecasts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="main-container">
         <div class="page-header">
-            <h2><a href="/" style="color: #333; text-decoration: none;">oddsinshadow</a></h2>
             <h4 class="text-start mb-3 text-muted">Probabilistic forecast for major football leagues</h4>
         </div>
 
@@ -98,11 +160,6 @@
             {% endif %}
             {% endif %}
             <div class="navigation-controls">
-                <div class="back-button">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">
-                        &larr; Back to Home
-                    </button>
-                </div>
                 <form onsubmit="return false;">
                     <label for="league">Select League:</label>
                     <select name="league" id="league" class="form-select d-inline-block ms-2"
@@ -169,6 +226,9 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap JS for mobile menu functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

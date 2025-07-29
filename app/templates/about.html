@@ -182,22 +182,22 @@
         <!-- Page Header -->
         <div class="page-header">
             <h1>About oddsinshadow</h1>
-            <p>Understanding probabilistic forecasts for major football leagues</p>
         </div>
 
         <!-- What We Do Section -->
         <div class="content-section">
             <h2>What We Do (in the shadows)</h2>
             <p>
-                oddsinshadow provides probabilistic forecasts for major football leagues around the world.
-                Currently we provide forecatss for the Big 5 European club Leagues and the three UEFA club tournaments.
-                Using statistical models and Elo rating systems, we calculate the likelihood of
-                various outcomes for teams throughout the season.
+                oddsinshadow provides probabilistic forecasts for major football leagues around the world. Currently, we
+                provide forecasts for the Big 5 European club leagues and the three UEFA club tournaments. Using
+                statistical
+                models and Elo rating systems, we calculate the likelihood of various outcomes for teams throughout the
+                season.
             </p>
             <p>
-                Our forecasts help fans, analysts, and enthusiasts understand not just who might win,
-                but the probability of different scenarios playing out across domestic leagues and
-                continental competitions.
+                Our forecasts help fans, analysts, and enthusiasts understand not just who might win, but the
+                probability of
+                different scenarios playing out across domestic leagues and continental competitions.
             </p>
         </div>
 
@@ -205,30 +205,49 @@
         <div class="content-section">
             <h2>How It Works</h2>
             <p>
-                For the models we currently have up-and-running, we use elo ratings to determine the team's strengths,
-                which we
-                get directly from the always reliable website <a href="https://www.clubelo.com">clubelo.com</a>.
-                We could potentially have our own calculation of the team's strengths, but clubelo is already doing a
-                great job at this, and they have a functioning API that lets us get ELOs on a day-to-day basis.
+                For the models we currently have up and running, we use Elo ratings to determine team strength, which we
+                get
+                directly from the always-reliable website <a href="https://clubelo.com" target="_blank"
+                    rel="noopener noreferrer">clubelo.com</a>. We could
+                calculate our own ratings, but clubelo already does a great job and provides a working API that lets us
+                fetch
+                Elo numbers on a day-to-day basis.
             </p>
             <p>
-                With these elo ratings we can derive how many goals each team will score on average, and then using a
-                Poisson model we can actually simulate what the final score of the game will be.
-                We do this about 10,000 times for every scheduled game, and voila we have an estimate of how frequently
-                each team wins the league.
-                Nerds tend to call this a Monte Carlo simulation.
+                With these Elo ratings, we estimate how many goals each team will score on average, and then use a
+                Poisson
+                model to simulate the final score of each match. We run this simulation about 10,000 times for every
+                scheduled
+                game — and voilà, we get an estimate of how often each team wins the league. Nerds might know this as a
+                Monte
+                Carlo simulation.
             </p>
             <p>
-                After we run these 10,000 simulations we can then provide estimates of each team's likelihood to win the
-                title, as well as other key races such as landing a top-4 spot for UCL qualification, and relegation
-                battles. For UEFA tounraments we have the probability for progression to each round in the knockout
-                stage,
+                After running these 10,000 simulations, we can provide estimates for things like title odds, chances of
+                a
+                top-4 finish (for Champions League qualification), and relegation risk. For UEFA tournaments, we
+                estimate the
+                probability of progressing through each round of the knockout stage.
             </p>
             <p>
-                The numbers are refreshed once a day, around the time that all European matches for the day are
-                finished, which is at midnight Central Europea Time.
+                The numbers are refreshed once a day, around the time all European matches for the day are finished —
+                typically
+                at midnight Central European Time.
             </p>
         </div>
+
+        <!-- Contact Section -->
+        <div class="content-section" id="contact">
+            <h2>Contact Us</h2>
+            <p>
+                Have a question, suggestion, or just want to say how much our forecast sucks? We'd love to hear from
+                you. Fill out the form below or reach out directly.
+            </p>
+            <p>
+                📧 Email us at: <a href="mailto:oddsinshadow@gmail.com">oddsinshadow@gmail.com</a>
+            </p>
+        </div>
+
 
         <!-- Bootstrap JS for mobile menu functionality -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

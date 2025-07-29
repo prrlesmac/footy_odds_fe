@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 from app.models.league import LeagueService
 
 main_bp = Blueprint('main', __name__)
@@ -8,6 +8,18 @@ def index():
     """Main page with summary table of odds for all leagues."""
     league_data = LeagueService.get_all_league_data()
     return render_template('landing_page.html', league_data=league_data)
+
+@main_bp.route('/league')
+def league_default():
+    """Default league view - redirects to first available league."""
+    leagues = LeagueService.get_league_names()
+    
+    if not leagues:
+        return "No leagues available", 404
+    
+    first_league = leagues[0]
+    return redirect(url_for('main.league_detail', league_name=first_league))
+
 
 @main_bp.route('/league/<league_name>')
 def league_detail(league_name):
@@ -28,3 +40,8 @@ def league_detail(league_name):
         selected_league=league_name,
         updated_at=updated_at
     )
+
+@main_bp.route('/about')
+def about_website():
+    """About view. Gives info about the website"""
+    return render_template('about.html')
