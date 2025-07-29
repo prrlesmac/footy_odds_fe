@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About - Probabilistic Forecasts for Major Sports League</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #f0f8ff;
+            color: #0066cc !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            background-color: #0066cc;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            color: #333 !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand:hover {
+            color: #0066cc !important;
+        }
+
+        .main-container {
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            color: #333;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+
+        .content-section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-section h2 {
+            color: #0066cc;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .content-section h3 {
+            color: #333;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .content-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+        }
+
+        .feature-card h4 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin: 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .contact-info h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">oddsinshadow</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/league">Forecasts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>About oddsinshadow</h1>
+            <p>Understanding probabilistic forecasts for major football leagues</p>
+        </div>
+
+        <!-- What We Do Section -->
+        <div class="content-section">
+            <h2>What We Do (in the shadows)</h2>
+            <p>
+                oddsinshadow provides probabilistic forecasts for major football leagues around the world.
+                Currently we provide forecatss for the Big 5 European club Leagues and the three UEFA club tournaments.
+                Using statistical models and Elo rating systems, we calculate the likelihood of
+                various outcomes for teams throughout the season.
+            </p>
+            <p>
+                Our forecasts help fans, analysts, and enthusiasts understand not just who might win,
+                but the probability of different scenarios playing out across domestic leagues and
+                continental competitions.
+            </p>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="content-section">
+            <h2>How It Works</h2>
+            <p>
+                For the models we currently have up-and-running, we use elo ratings to determine the team's strengths,
+                which we
+                get directly from the always reliable website <a href="https://www.clubelo.com">clubelo.com</a>.
+                We could potentially have our own calculation of the team's strengths, but clubelo is already doing a
+                great job at this, and they have a functioning API that lets us get ELOs on a day-to-day basis.
+            </p>
+            <p>
+                With these elo ratings we can derive how many goals each team will score on average, and then using a
+                Poisson model we can actually simulate what the final score of the game will be.
+                We do this about 10,000 times for every scheduled game, and voila we have an estimate of how frequently
+                each team wins the league.
+                Nerds tend to call this a Monte Carlo simulation.
+            </p>
+            <p>
+                After we run these 10,000 simulations we can then provide estimates of each team's likelihood to win the
+                title, as well as other key races such as landing a top-4 spot for UCL qualification, and relegation
+                battles. For UEFA tounraments we have the probability for progression to each round in the knockout
+                stage,
+            </p>
+            <p>
+                The numbers are refreshed once a day, around the time that all European matches for the day are
+                finished, which is at midnight Central Europea Time.
+            </p>
+        </div>
+
+        <!-- Bootstrap JS for mobile menu functionality -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
