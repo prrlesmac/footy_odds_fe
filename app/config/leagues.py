@@ -1,7 +1,7 @@
 LEAGUE_MAPPING = {
-    'UCL': 'UEFA Champions League',
-    'UEL': 'UEFA Europa League', 
-    'UECL': 'UEFA Conference League',
+  #  'UCL': 'UEFA Champions League',
+  #  'UEL': 'UEFA Europa League', 
+  #  'UECL': 'UEFA Conference League',
     'ENG': 'Premier League (England)',
     'ESP': 'La Liga (Spain)',
     'ITA': 'Serie A (Italy)',
