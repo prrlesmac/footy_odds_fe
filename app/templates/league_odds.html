@@ -156,7 +156,7 @@
         </div>
 
         <div class="table-container">
-            {% set has_playoff = (data[0]['relegation_playoff'] is not none) %}
+            {% set has_playoff = (standings[0]['relegation_playoff'] is not none) %}
             {% set is_continental = (selected_league.startswith('UEFA')) %}
             {% if is_continental %}
             {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
@@ -202,7 +202,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
+                    {% for row in standings %}
                     <tr>
                         <td>{{ row['team'] }}</td>
                         <td>{{ row['elo'] | round | int }}</td>
@@ -221,6 +221,33 @@
             <div class="last-updated">
                 Last Updated: {{ updated_at.strftime('%Y-%m-%d %H:%M UTC') }}
             </div>
+            <!-- Upcoming Fixtures Table -->
+            <div class="mt-5">
+                <h5 class="mb-3">Upcoming Fixtures</h5>
+                <div class="table-responsive" style="max-width: 800px;">
+                    <!-- Adjust table width here -->
+                    <table id="fixturesTable" class="table table-bordered table-hover table-striped text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 150px;">Date</th>
+                                <th style="width: 200px;">Home</th>
+                                <th style="width: 200px;">Away</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fixture in fixtures[:20] %}
+                            <tr>
+                                <td>{{ fixture.date.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ fixture.home }}</td>
+                                <td>{{ fixture.away }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
     </div>
 

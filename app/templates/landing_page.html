@@ -172,7 +172,7 @@
         </div>
 
         {% for league, items in league_data.items() %}
-        {% set teams = items %}
+        {% set teams = items["standings"] %}
         <div class="league-section">
             <div class="league-title">
                 <a href="{{ url_for('main.league_detail', league_name=league) }}">

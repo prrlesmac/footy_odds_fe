@@ -115,3 +115,17 @@ class LeagueQueries:
                 po_r32_floor DESC,
                 elo DESC
         """)
+    
+    @staticmethod
+    def get_fixtures_data():
+        return text("""
+            SELECT
+                home,
+                away,
+                date,
+                country
+            FROM public.fixtures
+            WHERE played='N'
+            ORDER BY DATE
+
+        """)

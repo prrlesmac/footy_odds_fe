@@ -29,13 +29,15 @@ def league_detail(league_name):
     if league_name not in league_data:
         return "League not found", 404
     
-    data = league_data[league_name]
+    standings = league_data[league_name]["standings"]
+    fixtures = league_data[league_name]["fixtures"]
     leagues = LeagueService.get_league_names()
-    updated_at = data[0].get('updated_at') if data else None
+    updated_at = standings[0].get('updated_at') if standings else None
     
     return render_template(
         'league_odds.html',
-        data=data,
+        standings=standings,
+        fixtures=fixtures,
         leagues=leagues,
         selected_league=league_name,
         updated_at=updated_at

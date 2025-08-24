@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Probabilistic Forecasts for Major Sports League</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #f0f8ff;
+            color: #0066cc !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            background-color: #0066cc;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            color: #333 !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand:hover {
+            color: #0066cc !important;
+        }
+
+        .main-container {
+            margin: 40px auto;
+            max-width: 1400px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .page-header h4 {
+            margin: 0;
+            font-weight: 400;
+            color: #6c757d;
+        }
+
+        .league-section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .league-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .league-table-container {
+            flex: 1;
+        }
+
+        .league-matches-container {
+            flex: 0 0 350px;
+        }
+
+        .league-title {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .league-title a {
+            color: #0066cc !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .league-title a:hover {
+            background-color: #f0f8ff;
+            color: #0052a3 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .upcoming-matches-title {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+
+        .odds-cell {
+            font-weight: 500;
+            text-align: center;
+            color: #000;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        thead th {
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            background-color: #f5f5f5;
+        }
+
+        .matches-table {
+            width: 350px;
+            table-layout: fixed;
+            margin: 0 auto;
+            font-size: 0.9rem;
+        }
+
+        .matches-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .matches-table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .match-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .team-name {
+            font-weight: 400;
+            color: #000;
+        }
+
+        .match-date {
+            color: #000;
+        }
+
+        .last-updated {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 1000px) {
+            .league-content {
+                flex-direction: column;
+            }
+
+            .league-matches-container {
+                flex: 1;
+            }
+
+            .matches-table {
+                width: 500px;
+            }
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVR1WBPGG1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XVR1WBPGG1');
+    </script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">oddsinshadow</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/league">Forecasts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="page-header">
+            <h4 class="text-start mb-3 text-muted">Probabilistic forecast for major football leagues</h4>
+        </div>
+
+        {% for league, items in league_data.items() %}
+        {% set teams = items['standings'] %}
+        <div class="league-section">
+            <div class="league-title">
+                <a href="{{ url_for('main.league_detail', league_name=league) }}">
+                    {{ league }} →
+                </a>
+            </div>
+
+            <div class="league-content">
+                <!-- League Table -->
+                <div class="league-table-container">
+                    <div class="upcoming-matches-title">
+                        League Forecast
+                    </div>
+                    {% set is_continental = (league.startswith('UEFA')) %}
+                    {% if is_continental %}
+                    {% set odds_cols = ['po_r4','po_r2','champion'] %}
+                    {% else %}
+                    {% set odds_cols = ['top_4','champion'] %}
+                    {% endif %}
+                    <table class="table table-bordered table-hover"
+                        style="width: 500px; table-layout: fixed; margin: 0 auto;">
+                        <thead>
+                            <tr>
+                                <th style="width:200px;">Team</th>
+                                <th style="width:100px;">Elo Rating</th>
+                                {% if is_continental %}
+                                <th style="width:100px;">Semifinal (%)</th>
+                                <th style="width:100px;">Final (%)</th>
+                                {% else %}
+                                <th style="width:100px;">Top 4 (%)</th>
+                                {% endif %}
+                                <th style="width:100px;">Champion (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in teams[:5] %}
+                            <tr>
+                                <td>{{team['team']}}</td>
+                                <td>{{team['elo'] | round | int }}</td>
+                                {% for col in odds_cols %}
+                                {% set val = 100*team[col] %}
+                                {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                                <td class="odds-cell" style="background-color: {{ bg_color }};">
+                                    {{ "%d"|format(val|round) }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Upcoming Matches for this League -->
+                <div class="league-matches-container">
+                    <div class="upcoming-matches-title">
+                        Upcoming Matches
+                    </div>
+
+                    <table class="table table-bordered table-hover matches-table">
+                        <thead>
+                            <tr>
+                                <th style="width:120px;">Home</th>
+                                <th style="width:120px;">Away</th>
+                                <th style="width:110px;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if upcoming_matches and upcoming_matches[league] %}
+                            {% for match in upcoming_matches[league] %}
+                            <tr class="match-row">
+                                <td class="team-name">{{ match.home_team }}</td>
+                                <td class="team-name">{{ match.away_team }}</td>
+                                <td class="match-date">{{ match.date }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <!-- Sample data based on league - replace with actual data -->
+                            {% if 'Premier League' in league %}
+                            <tr class="match-row">
+                                <td class="team-name">Manchester City</td>
+                                <td class="team-name">Arsenal</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Liverpool</td>
+                                <td class="team-name">Chelsea</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Manchester United</td>
+                                <td class="team-name">Tottenham</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% elif 'La Liga' in league %}
+                            <tr class="match-row">
+                                <td class="team-name">Barcelona</td>
+                                <td class="team-name">Real Madrid</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Atletico Madrid</td>
+                                <td class="team-name">Sevilla</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Valencia</td>
+                                <td class="team-name">Real Sociedad</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% elif 'Bundesliga' in league %}
+                            <tr class="match-row">
+                                <td class="team-name">Bayern Munich</td>
+                                <td class="team-name">Borussia Dortmund</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">RB Leipzig</td>
+                                <td class="team-name">Bayer Leverkusen</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Eintracht Frankfurt</td>
+                                <td class="team-name">Borussia Mönchengladbach</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% elif 'Serie A' in league %}
+                            <tr class="match-row">
+                                <td class="team-name">Inter Milan</td>
+                                <td class="team-name">AC Milan</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Juventus</td>
+                                <td class="team-name">Napoli</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Roma</td>
+                                <td class="team-name">Lazio</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% elif 'Ligue 1' in league %}
+                            <tr class="match-row">
+                                <td class="team-name">PSG</td>
+                                <td class="team-name">Marseille</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Lyon</td>
+                                <td class="team-name">Monaco</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Nice</td>
+                                <td class="team-name">Lille</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% else %}
+                            <tr class="match-row">
+                                <td class="team-name">Team A</td>
+                                <td class="team-name">Team B</td>
+                                <td class="match-date">Aug 25</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Team C</td>
+                                <td class="team-name">Team D</td>
+                                <td class="match-date">Aug 26</td>
+                            </tr>
+                            <tr class="match-row">
+                                <td class="team-name">Team E</td>
+                                <td class="team-name">Team F</td>
+                                <td class="match-date">Aug 27</td>
+                            </tr>
+                            {% endif %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Bootstrap JS for mobile menu functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
