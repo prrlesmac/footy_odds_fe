@@ -124,7 +124,7 @@ class LeagueQueries:
                 away,
                 date,
                 country
-            FROM public.fixtures
+            FROM public.fixtures_uefa
             WHERE played='N'
             ORDER BY DATE
 
