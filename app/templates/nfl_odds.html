@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Probabilistic Forecasts for NFL</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-nav .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #f0f8ff;
+            color: #0066cc !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            background-color: #0066cc;
+            color: white !important;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            color: #333 !important;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+        }
+
+        .navbar-brand:hover {
+            color: #0066cc !important;
+        }
+
+        .main-container {
+            margin: 40px auto;
+            max-width: 1200px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .page-header h4 {
+            margin: 0;
+            font-weight: 400;
+            color: #6c757d;
+        }
+
+        .table-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .navigation-controls {
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            margin-bottom: 15px;
+        }
+
+        thead th {
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            background-color: #f5f5f5;
+        }
+
+        #oddsTable td,
+        #oddsTable th {
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
+        }
+
+        .odds-cell {
+            color: #000;
+            font-weight: 500;
+        }
+
+        select {
+            width: 250px;
+            padding: 6px 12px;
+            font-size: 1rem;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XVR1WBPGG1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XVR1WBPGG1');
+    </script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">oddsinshadow</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/league">Forecasts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="page-header">
+            <h4 class="text-start mb-3 text-muted">Probabilistic forecast for NFL</h4>
+        </div>
+
+        <div class="table-container">
+            {% set odds_cols = ['po_r16','first_round_bye','po_r8','po_r4','po_r2','champion'] %}
+            <table id="oddsTable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:250px;">Team</th>
+                        <th style="width:140px;">Division</th>
+                        <th style="width:80px;">Elo Rating</th>
+                        <th style="width:80px;">Make Playoffs (%)</th>
+                        <th style="width:80px;">First Round Bye (%)</th>
+                        <th style="width:80px;">Make Div. Round (%)</th>
+                        <th style="width:80px;">Make Conf. Champ (%)</th>
+                        <th style="width:80px;">Make Super Bowl (%)</th>
+                        <th style="width:80px;">Win Super Bowl (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in standings %}
+                    <tr>
+                        <td>{{ row['team'] }}</td>
+                        <td>{{ row['division'] }}</td>
+                        <td>{{ row['elo'] | round | int }}</td>
+                        {% for col in odds_cols %}
+                        {% set val = 100*row[col] %}
+                        {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                        <td class="odds-cell" style="background-color: {{ bg_color }};">
+                            {{ "%d"|format(val|round) }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="last-updated">
+                Last Updated: {{ updated_at.strftime('%Y-%m-%d %H:%M UTC') }}
+            </div>
+            <!-- Upcoming Fixtures Table -->
+            <div class="mt-5">
+                <h5 class="mb-3">Upcoming Games</h5>
+                <div class="table-responsive" style="max-width: 800px;">
+                    <!-- Adjust table width here -->
+                    <table id="fixturesTable" class="table table-bordered table-hover table-striped text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 150px;">Date</th>
+                                <th style="width: 200px;">Home</th>
+                                <th style="width: 200px;">Away</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fixture in fixtures[:16] %}
+                            <tr>
+                                <td>{{ fixture.date.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ fixture.home }}</td>
+                                <td>{{ fixture.away }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function redirectToLeague() {
+            var league = document.getElementById('league').value;
+            var encodedLeague = encodeURIComponent(league);
+            window.location.href = '/league/' + encodedLeague;
+        }
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap JS for mobile menu functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Initialize DataTables -->
+    <script>
+        $(document).ready(function () {
+            $('#oddsTable').DataTable({
+                paging: false,
+                info: false,
+                order: [],  // disables default sorting
+            });
+        });
+    </script>
+</body>
+
+</html>

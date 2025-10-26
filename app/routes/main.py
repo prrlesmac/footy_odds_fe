@@ -6,8 +6,11 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     """Main page with summary table of odds for all leagues."""
-    league_data = LeagueService.get_all_league_data()
-    return render_template('landing_page.html', league_data=league_data)
+    footy_league_data = LeagueService.get_all_footy_league_data()
+    nfl_data = LeagueService.get_all_nfl_data()
+    return render_template('landing_page.html',
+                           footy_league_data=footy_league_data,
+                           nfl_data=nfl_data)
 
 @main_bp.route('/league')
 def league_default():
@@ -24,7 +27,7 @@ def league_default():
 @main_bp.route('/league/<league_name>')
 def league_detail(league_name):
     """Detailed view for a specific league."""
-    league_data = LeagueService.get_all_league_data()
+    league_data = LeagueService.get_all_footy_league_data()
     
     if league_name not in league_data:
         return "League not found", 404
@@ -40,6 +43,28 @@ def league_detail(league_name):
         fixtures=fixtures,
         leagues=leagues,
         selected_league=league_name,
+        updated_at=updated_at
+    )
+
+@main_bp.route('/NFL')
+def league_detail_nfl():
+    """Detailed view for a specific league."""
+    league_data = LeagueService.get_all_nfl_data()
+
+    if "NFL" not in league_data:
+        return "League not found", 404
+    
+    standings = league_data["NFL"]["standings"]
+    fixtures = league_data["NFL"]["fixtures"]
+    leagues = LeagueService.get_league_names()
+    updated_at = standings[0].get('updated_at') if standings else None
+
+    return render_template(
+        'nfl_odds.html',
+        standings=standings,
+        fixtures=fixtures,
+        leagues=leagues,
+        selected_league="NFL",
         updated_at=updated_at
     )
 

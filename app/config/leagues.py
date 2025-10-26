@@ -1,4 +1,4 @@
-LEAGUE_MAPPING = {
+UEFA_LEAGUE_MAPPING = {
     'UCL': 'UEFA Champions League',
     'UEL': 'UEFA Europa League', 
     'UECL': 'UEFA Conference League',
@@ -10,7 +10,7 @@ LEAGUE_MAPPING = {
 }
 
 # Reverse mapping for convenience
-LEAGUE_REVERSE_MAPPING = {v: k for k, v in LEAGUE_MAPPING.items()}
+UEFA_LEAGUE_REVERSE_MAPPING = {v: k for k, v in UEFA_LEAGUE_MAPPING.items()}
 
 # Ordered list for consistent display
-LEAGUE_ORDER = list(LEAGUE_MAPPING.values())
+UEFA_LEAGUE_ORDER = list(UEFA_LEAGUE_MAPPING.values())
