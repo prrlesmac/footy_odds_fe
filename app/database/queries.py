@@ -29,7 +29,7 @@ class LeagueQueries:
                 ELSE relegation_direct
                 END AS relegation_direct_floor
                 FROM public.sim_standings_dom s 
-                LEFT JOIN public.current_elos c 
+                LEFT JOIN public.current_elos_uefa c 
                 ON s.team = c.club                  
             )
             SELECT 
@@ -90,7 +90,7 @@ class LeagueQueries:
                 ELSE po_r32
                 END AS po_r32_floor
                 FROM public.sim_standings_con s 
-                LEFT JOIN public.current_elos c 
+                LEFT JOIN public.current_elos_uefa c 
                 ON s.team = c.club                            
             )
             SELECT 
