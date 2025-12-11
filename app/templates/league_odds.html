@@ -159,7 +159,7 @@
             {% set has_playoff = (standings[0]['relegation_playoff'] is not none) %}
             {% set is_continental = (selected_league.startswith('UEFA')) %}
             {% if is_continental %}
-            {% set odds_cols = ['po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
+            {% set odds_cols = ['direct_to_round_of_16','po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
             {% else %}
             {% if has_playoff %}
             {% set odds_cols = ['relegation_direct', 'relegation_playoff', 'top_4', 'champion'] %}
@@ -185,6 +185,7 @@
                         <th style="width:200px;">Team</th>
                         <th style="width:100px;">Elo Rating</th>
                         {% if is_continental %}
+                        <th style="width:120px;">League<br>Top 8 (%)</th>
                         <th style="width:120px;">Knockout Round (%)</th>
                         <th style="width:120px;">Round of 16 (%)</th>
                         <th style="width:120px;">Quarterfinal (%)</th>

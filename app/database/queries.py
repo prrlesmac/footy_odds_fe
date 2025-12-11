@@ -57,6 +57,7 @@ class LeagueQueries:
                 SELECT 
                 team,
                 elo,
+                direct_to_round_of_16,
                 po_r32,
                 po_r16,
                 po_r8,  
@@ -96,6 +97,7 @@ class LeagueQueries:
             SELECT 
                 team,
                 elo,
+                direct_to_round_of_16,
                 po_r32,
                 po_r16,
                 po_r8,  
