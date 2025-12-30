@@ -174,7 +174,10 @@
                 <tbody>
                     {% for row in standings %}
                     <tr>
-                        <td>{{ row['team'] }}</td>
+                        <td>
+                            {{ row['team'] }}
+                            <span style="color:#888; font-size:0.7em;">{{ row['record'] }}</span>
+                        </td>
                         <td>{{ row['division'] }}</td>
                         <td>{{ row['elo'] | round | int }}</td>
                         {% for col in odds_cols %}

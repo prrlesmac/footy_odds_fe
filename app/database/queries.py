@@ -8,13 +8,14 @@ class LeagueQueries:
         return text("""
             WITH CTE AS (
                 SELECT 
-                team,
+                s.team,
                 elo,
+                pts,
                 champion,
                 top_4,
                 relegation_playoff,
                 relegation_direct,
-                league,
+                s.league,
                 s.updated_at,
                 CASE WHEN champion <= 0.015
                 THEN 0
@@ -29,12 +30,16 @@ class LeagueQueries:
                 ELSE relegation_direct
                 END AS relegation_direct_floor
                 FROM public.sim_standings_dom s 
+                LEFT JOIN public.current_standings_uefa cs 
+                ON s.team = cs.team    
+                    AND s.league = cs.league  
                 LEFT JOIN public.current_elos_uefa c 
                 ON s.team = c.club                  
             )
             SELECT 
                 team,
                 elo,
+                pts,
                 champion,
                 top_4,
                 relegation_playoff,
@@ -55,8 +60,9 @@ class LeagueQueries:
         return text("""
             WITH CTE AS (
                 SELECT 
-                team,
+                s.team,
                 elo,
+                pts,
                 direct_to_round_of_16,
                 po_r32,
                 po_r16,
@@ -64,7 +70,7 @@ class LeagueQueries:
                 po_r4,
                 po_r2,
                 po_champion,
-                league,
+                s.league,
                 s.updated_at,
                 CASE WHEN po_champion <= 0.015
                 THEN 0
@@ -91,12 +97,16 @@ class LeagueQueries:
                 ELSE po_r32
                 END AS po_r32_floor
                 FROM public.sim_standings_con s 
+                LEFT JOIN public.current_standings_uefa cs 
+                ON s.team = cs.team  
+                    AND s.league = cs.league
                 LEFT JOIN public.current_elos_uefa c 
                 ON s.team = c.club                            
             )
             SELECT 
                 team,
                 elo,
+                pts,
                 direct_to_round_of_16,
                 po_r32,
                 po_r16,
@@ -138,6 +148,12 @@ class LeagueQueries:
                 SELECT
                 s.team,
                 division,
+                wins || '-' || losses || 
+                CASE WHEN ties > 0 
+                     THEN '-' || ties
+                     ELSE ''
+                     END
+                AS record,
                 elo,
                 first_round_bye,
                 po_r16,
@@ -167,6 +183,8 @@ class LeagueQueries:
                 ELSE po_r16
                 END AS po_r16_floor
                 FROM public.sim_standings_nfl s 
+                LEFT JOIN public.current_standings_nfl cs 
+                ON s.team = cs.team  
                 LEFT JOIN public.current_elos_nfl c 
                 ON s.team = c.club        
                 LEFT JOIN public.teams_nfl t
@@ -175,6 +193,7 @@ class LeagueQueries:
             SELECT 
                 team,
                 division,
+                record,
                 elo,
                 first_round_bye,
                 po_r16,
