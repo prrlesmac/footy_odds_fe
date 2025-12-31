@@ -8,9 +8,11 @@ def index():
     """Main page with summary table of odds for all leagues."""
     footy_league_data = LeagueService.get_all_footy_league_data()
     nfl_data = LeagueService.get_all_nfl_data()
+    nba_data = LeagueService.get_all_nba_data()
     return render_template('landing_page.html',
                            footy_league_data=footy_league_data,
-                           nfl_data=nfl_data)
+                           nfl_data=nfl_data,
+                           nba_data=nba_data)
 
 @main_bp.route('/league')
 def league_default():
@@ -65,6 +67,28 @@ def league_detail_nfl():
         fixtures=fixtures,
         leagues=leagues,
         selected_league="NFL",
+        updated_at=updated_at
+    )
+
+@main_bp.route('/NBA')
+def league_detail_nba():
+    """Detailed view for a specific league."""
+    league_data = LeagueService.get_all_nba_data()
+
+    if "NBA" not in league_data:
+        return "League not found", 404
+    
+    standings = league_data["NBA"]["standings"]
+    fixtures = league_data["NBA"]["fixtures"]
+    leagues = LeagueService.get_league_names()
+    updated_at = standings[0].get('updated_at') if standings else None
+
+    return render_template(
+        'nba_odds.html',
+        standings=standings,
+        fixtures=fixtures,
+        leagues=leagues,
+        selected_league="NBA",
         updated_at=updated_at
     )
 

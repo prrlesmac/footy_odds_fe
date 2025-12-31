@@ -213,3 +213,74 @@ class LeagueQueries:
                 po_r16_floor DESC,
                 elo DESC
         """)
+    
+    @staticmethod
+    def get_nba_league_data():
+         return text("""
+            WITH CTE AS (
+                SELECT
+                s.team,
+                conference,
+                wins || '-' || losses || 
+                CASE WHEN ties > 0 
+                     THEN '-' || ties
+                     ELSE ''
+                     END
+                AS record,
+                elo,
+                po_r16,
+                po_r8,  
+                po_r4,
+                po_r2,
+                po_champion,
+                s.updated_at,
+                CASE WHEN po_champion <= 0.015
+                THEN 0
+                ELSE po_champion
+                END AS po_champion_floor,
+                CASE WHEN po_r2 <= 0.015
+                THEN 0
+                ELSE po_r2
+                END AS po_r2_floor,
+                CASE WHEN po_r4 <= 0.015
+                THEN 0
+                ELSE po_r4
+                END AS po_r4_floor,
+                CASE WHEN po_r8 <= 0.015
+                THEN 0
+                ELSE po_r8
+                END AS po_r8_floor,
+                CASE WHEN po_r16 <= 0.015
+                THEN 0
+                ELSE po_r16
+                END AS po_r16_floor
+                FROM public.sim_standings_nba s 
+                LEFT JOIN public.current_standings_nba cs 
+                ON s.team = cs.team  
+                LEFT JOIN public.current_elos_nba c 
+                ON s.team = c.club        
+                LEFT JOIN public.teams_nba t
+                ON s.team = t.team               
+            )
+            SELECT 
+                team,
+                conference,
+                record,
+                elo,
+                po_r16,
+                po_r8,  
+                po_r4,
+                po_r2,
+                po_champion AS champion,
+                'NBA' AS league,
+                updated_at
+            FROM CTE
+            ORDER by
+                league,
+                po_champion_floor DESC,
+                po_r2_floor DESC,
+                po_r4_floor DESC,
+                po_r8_floor DESC,
+                po_r16_floor DESC,
+                elo DESC
+        """)

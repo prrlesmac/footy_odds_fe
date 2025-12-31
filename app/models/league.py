@@ -66,6 +66,28 @@ class LeagueService:
         
         return league_dict
 
+    @staticmethod
+    def get_all_nba_data():
+        """Get organized league data for all leagues."""
+        nfl_data = DatabaseConnection.execute_query(
+            LeagueQueries.get_nba_league_data()
+        )
+        # Fetch upcoming matches data
+        fixtures_data = DatabaseConnection.execute_query(
+            LeagueQueries.get_fixtures_data("fixtures_nba")
+        )
+        league_dict = defaultdict(lambda: defaultdict(list))
+
+        # Convert to dictionaries and group by league
+        for row in nfl_data:
+            row_dict = row._asdict()
+            league_dict["NBA"]["standings"].append(row_dict)
+
+        for row in fixtures_data:
+            row_dict = row._asdict()
+            league_dict["NBA"]["fixtures"].append(row_dict)
+        
+        return league_dict
 
     @staticmethod
     def get_league_names():
