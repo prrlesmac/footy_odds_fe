@@ -304,6 +304,41 @@
                     </table>
                 </div>
                 {% endfor %}
+                {% for league, items in mlb_data.items() %}
+                {% set teams = items["standings"] %}
+                <div class="league-section">
+                    <div class="league-title">
+                        <a href="{{ url_for('main.league_detail_mlb') }}">{{ league }} →</a>
+                    </div>
+                    {% set odds_cols = ['po_r2','champion'] %}
+                    <table class="table table-bordered table-hover"
+                        style="width: 500px; table-layout: fixed; margin: 0 auto;">
+                        <thead>
+                            <tr>
+                                <th style="width:200px;">Team</th>
+                                <th style="width:100px;">Elo Rating</th>
+                                <th style="width:100px;">Win LCS (%)</th>
+                                <th style="width:100px;">Win World Series (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in teams[:5] %}
+                            <tr>
+                                <td>{{team['team']}}</td>
+                                <td>{{team['elo'] | round | int }}</td>
+                                {% for col in odds_cols %}
+                                {% set val = 100*team[col] %}
+                                {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                                <td class="odds-cell" style="background-color: {{ bg_color }};">
+                                    {{ "%d"|format(val|round) }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
