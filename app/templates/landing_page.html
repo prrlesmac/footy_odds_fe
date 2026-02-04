@@ -214,7 +214,13 @@
                         <tbody>
                             {% for team in teams[:5] %}
                             <tr>
-                                <td>{{team['team']}}</td>
+                                <td style="display:flex; align-items:center; gap:8px;">
+                                    <img src="{{ url_for('static', filename='assets/logos/uefa/' + team['logo_file']) }}"
+                                        alt="{{ team['team'] }} logo" style="height:20px; width:auto;">
+                                    <div>
+                                        {{ team['team'] }}
+                                    </div>
+                                </td>
                                 <td>{{team['elo'] | round | int }}</td>
                                 {% for col in odds_cols %}
                                 {% set val = 100*team[col] %}

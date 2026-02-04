@@ -2,7 +2,7 @@ from collections import defaultdict
 from app.database.connection import DatabaseConnection
 from app.database.queries import LeagueQueries
 from app.config.leagues import UEFA_LEAGUE_MAPPING, UEFA_LEAGUE_ORDER
-from app.services.team_mapper import map_team_name
+from app.services.team_mapper import map_team_name, map_team_logo_path
 
 class LeagueService:
     """Service class for league-related operations."""
@@ -27,12 +27,15 @@ class LeagueService:
         # Convert to dictionaries and group by league
         for row in all_data:
             row_dict = row._asdict()
+            row_dict['logo_file'] = map_team_logo_path(row_dict['team'])
             row_dict['team'] = map_team_name(row_dict['team'])
             mapped_league = UEFA_LEAGUE_MAPPING.get(row_dict['league'], row_dict['league'])
             league_dict[mapped_league]["standings"].append(row_dict)
 
         for row in fixtures_data:
             row_dict = row._asdict()
+            row_dict['logo_file_home'] = map_team_logo_path(row_dict['home'])
+            row_dict['logo_file_away'] = map_team_logo_path(row_dict['away'])
             row_dict['home'] = map_team_name(row_dict['home'])
             row_dict['away'] = map_team_name(row_dict['away'])
             mapped_league = UEFA_LEAGUE_MAPPING.get(row_dict['country'], row_dict['country'])
