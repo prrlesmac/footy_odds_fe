@@ -2,7 +2,7 @@ from collections import defaultdict
 from app.database.connection import DatabaseConnection
 from app.database.queries import LeagueQueries
 from app.config.leagues import UEFA_LEAGUE_MAPPING, UEFA_LEAGUE_ORDER
-from app.services.team_mapper import map_team_name, map_team_logo_path
+from app.services.team_mapper import map_team_name, map_team_logo_path, map_us_team_logo_path
 
 class LeagueService:
     """Service class for league-related operations."""
@@ -65,10 +65,13 @@ class LeagueService:
         # Convert to dictionaries and group by league
         for row in nfl_data:
             row_dict = row._asdict()
+            row_dict['logo_file'] = map_us_team_logo_path(row_dict['team'])
             league_dict["NFL"]["standings"].append(row_dict)
 
         for row in fixtures_data:
             row_dict = row._asdict()
+            row_dict['logo_file_home'] = map_us_team_logo_path(row_dict['home'])
+            row_dict['logo_file_away'] = map_us_team_logo_path(row_dict['away'])
             league_dict["NFL"]["fixtures"].append(row_dict)
         
         return league_dict
@@ -88,10 +91,13 @@ class LeagueService:
         # Convert to dictionaries and group by league
         for row in nba_data:
             row_dict = row._asdict()
+            row_dict['logo_file'] = map_us_team_logo_path(row_dict['team'])
             league_dict["NBA"]["standings"].append(row_dict)
 
         for row in fixtures_data:
             row_dict = row._asdict()
+            row_dict['logo_file_home'] = map_us_team_logo_path(row_dict['home'])
+            row_dict['logo_file_away'] = map_us_team_logo_path(row_dict['away'])
             league_dict["NBA"]["fixtures"].append(row_dict)
         
         return league_dict
@@ -111,10 +117,13 @@ class LeagueService:
         # Convert to dictionaries and group by league
         for row in mlb_data:
             row_dict = row._asdict()
+            row_dict['logo_file'] = map_us_team_logo_path(row_dict['team'])
             league_dict["MLB"]["standings"].append(row_dict)
 
         for row in fixtures_data:
             row_dict = row._asdict()
+            row_dict['logo_file_home'] = map_us_team_logo_path(row_dict['home'])
+            row_dict['logo_file_away'] = map_us_team_logo_path(row_dict['away'])
             league_dict["MLB"]["fixtures"].append(row_dict)
         
         return league_dict

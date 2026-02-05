@@ -174,9 +174,13 @@
                 <tbody>
                     {% for row in standings %}
                     <tr>
-                        <td>
-                            {{ row['team'] }}
-                            <span style="color:#888; font-size:0.7em;">{{ row['record'] }}</span>
+                        <td style="display:flex; align-items:center; gap:8px;">
+                            <img src="{{ url_for('static', filename='assets/logos/nfl/' + row['logo_file']) }}"
+                                alt="{{ row['team'] }} logo" style="height:auto; width:20px;">
+                            <div>
+                                {{ row['team'] }}
+                                <span style="color:#888; font-size:0.7em;">{{ row['record'] }}</span>
+                            </div>
                         </td>
                         <td>{{ row['division'] }}</td>
                         <td>{{ row['elo'] | round | int }}</td>
@@ -212,8 +216,24 @@
                             {% for fixture in fixtures[:16] %}
                             <tr>
                                 <td>{{ fixture.date.strftime('%Y-%m-%d') }}</td>
-                                <td>{{ fixture.home }}</td>
-                                <td>{{ fixture.away }}</td>
+                                <td>
+                                    <div
+                                        style="display:flex; align-items:center;justify-content:center; gap:8px; white-space:nowrap;">
+                                        <img src="{{ url_for('static', filename='assets/logos/nfl/' + fixture['logo_file_home']) }}"
+                                            alt="{{ fixture.home }} logo" style="height:20px; width:auto;">
+                                        <span class="team-name">{{ fixture.home }}</span>
+                                    </div>
+                                </td>
+
+                                <!-- Away team column -->
+                                <td>
+                                    <div
+                                        style="display:flex; align-items:center;justify-content:center; gap:8px; white-space:nowrap;">
+                                        <img src="{{ url_for('static', filename='assets/logos/nfl/' + fixture['logo_file_away']) }}"
+                                            alt="{{ fixture.away }} logo" style="height:20px; width:auto;">
+                                        <span class="team-name">{{ fixture.away }}</span>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

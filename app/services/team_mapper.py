@@ -1,3 +1,5 @@
+import re
+
 TEAM_NAME_MAP = {
     "Eintracht Frankfurt": "Eint Frankfurt",
     "Paris Saint-Germain": "Paris S-G",
@@ -186,3 +188,6 @@ def map_team_name(db_name: str) -> str:
 
 def map_team_logo_path(db_name: str) -> str:
     return TEAM_BADGE_MAP.get(db_name, db_name)
+
+def map_us_team_logo_path(db_name: str) -> str:
+    return re.sub(r'[^a-z0-9_]', '', db_name.lower().replace(' ', '_')) + '_logo_primary.png'
