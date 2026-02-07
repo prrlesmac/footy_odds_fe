@@ -19,6 +19,7 @@
             END AS ties
         FROM public.fixtures_nba
         WHERE played='Y' 
+        AND round='League'
 
         UNION ALL
 
@@ -41,6 +42,7 @@
             END AS ties
         FROM public.fixtures_nba
         WHERE played='Y'  
+        AND round='League'
     )
     SELECT 
         team,

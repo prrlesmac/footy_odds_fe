@@ -11,6 +11,7 @@ WITH matches AS (
         END AS pts
     FROM public.fixtures_uefa
     WHERE played='Y' 
+        AND round='League'
 
     UNION ALL
 
@@ -25,6 +26,7 @@ WITH matches AS (
         END AS pts
     FROM public.fixtures_uefa
     WHERE played='Y' 
+        AND round='League'
 )
 SELECT 
     team,
