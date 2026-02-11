@@ -239,48 +239,6 @@
 
             <!-- US Sports Tab -->
             <div class="tab-pane fade" id="usLeagues" role="tabpanel">
-                {% for league, items in nfl_data.items() %}
-                {% set teams = items["standings"] %}
-                <div class="league-section">
-                    <div class="league-title">
-                        <a href="{{ url_for('main.league_detail_nfl') }}">{{ league }} →</a>
-                    </div>
-                    {% set odds_cols = ['first_round_bye','po_r2','champion'] %}
-                    <table class="table table-bordered table-hover"
-                        style="width: 500px; table-layout: fixed; margin: 0 auto;">
-                        <thead>
-                            <tr>
-                                <th style="width:240px;">Team</th>
-                                <th style="width:100px;">Elo Rating</th>
-                                <th style="width:100px;">First Round Bye (%)</th>
-                                <th style="width:100px;">Make Super Bowl (%)</th>
-                                <th style="width:100px;">Win Super Bowl (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for team in teams[:5] %}
-                            <tr>
-                                <td style="display:flex; align-items:center; gap:8px;">
-                                    <img src="{{ url_for('static', filename='assets/logos/nfl/' + team['logo_file']) }}"
-                                        alt="{{ team['team'] }} logo" style="height:auto; width:20px;">
-                                    <div>
-                                        {{ team['team'] }}
-                                    </div>
-                                </td>
-                                <td>{{team['elo'] | round | int }}</td>
-                                {% for col in odds_cols %}
-                                {% set val = 100*team[col] %}
-                                {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
-                                <td class="odds-cell" style="background-color: {{ bg_color }};">
-                                    {{ "%d"|format(val|round) }}
-                                </td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% endfor %}
                 {% for league, items in nba_data.items() %}
                 {% set teams = items["standings"] %}
                 <div class="league-section">
@@ -344,6 +302,48 @@
                             <tr>
                                 <td style="display:flex; align-items:center; gap:8px;">
                                     <img src="{{ url_for('static', filename='assets/logos/mlb/' + team['logo_file']) }}"
+                                        alt="{{ team['team'] }} logo" style="height:auto; width:20px;">
+                                    <div>
+                                        {{ team['team'] }}
+                                    </div>
+                                </td>
+                                <td>{{team['elo'] | round | int }}</td>
+                                {% for col in odds_cols %}
+                                {% set val = 100*team[col] %}
+                                {% set bg_color = "hsl(39, 100%, " ~ (100 - val * 0.5) ~ "%)" %}
+                                <td class="odds-cell" style="background-color: {{ bg_color }};">
+                                    {{ "%d"|format(val|round) }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+                {% for league, items in nfl_data.items() %}
+                {% set teams = items["standings"] %}
+                <div class="league-section">
+                    <div class="league-title">
+                        <a href="{{ url_for('main.league_detail_nfl') }}">{{ league }} →</a>
+                    </div>
+                    {% set odds_cols = ['first_round_bye','po_r2','champion'] %}
+                    <table class="table table-bordered table-hover"
+                        style="width: 500px; table-layout: fixed; margin: 0 auto;">
+                        <thead>
+                            <tr>
+                                <th style="width:240px;">Team</th>
+                                <th style="width:100px;">Elo Rating</th>
+                                <th style="width:100px;">First Round Bye (%)</th>
+                                <th style="width:100px;">Make Super Bowl (%)</th>
+                                <th style="width:100px;">Win Super Bowl (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in teams[:5] %}
+                            <tr>
+                                <td style="display:flex; align-items:center; gap:8px;">
+                                    <img src="{{ url_for('static', filename='assets/logos/nfl/' + team['logo_file']) }}"
                                         alt="{{ team['team'] }} logo" style="height:auto; width:20px;">
                                     <div>
                                         {{ team['team'] }}
