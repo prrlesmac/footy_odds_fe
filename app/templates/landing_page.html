@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <title>Probabilistic Forecasts for Major Sports League</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background-color: #f9f9f9;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f9 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
         }
 
         .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             padding: 0;
+            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
         }
 
         .navbar-nav {
@@ -23,32 +26,56 @@
 
         .navbar-nav .nav-link {
             color: #333 !important;
-            font-weight: 500;
+            font-weight: 600;
             padding: 1rem 1.5rem !important;
             transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0066cc, #34d399);
+            bottom: 8px;
+            left: 50%;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .navbar-nav .nav-link:hover {
-            background-color: #f0f8ff;
+            background-color: rgba(0, 102, 204, 0.08);
             color: #0066cc !important;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
         }
 
         .navbar-nav .nav-link.active {
-            background-color: #0066cc;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
             color: white !important;
-            border-radius: 0;
+            border-radius: 6px;
         }
 
         .navbar-brand {
-            color: #333 !important;
-            font-weight: 600;
+            color: #0066cc !important;
+            font-weight: 700;
             font-size: 1.5rem;
             text-decoration: none;
             padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
         }
 
         .navbar-brand:hover {
-            color: #0066cc !important;
+            transform: translateY(-2px);
         }
 
         .main-container {
@@ -57,26 +84,44 @@
         }
 
         .page-header {
-            background: white;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.08) 0%, rgba(52, 211, 153, 0.08) 100%);
+            padding: 35px;
+            margin-bottom: 35px;
+            border-radius: 14px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             text-align: left;
+            border-left: 4px solid #0066cc;
         }
 
         .page-header h4 {
             margin: 0;
-            font-weight: 400;
-            color: #6c757d;
+            font-weight: 600;
+            color: #0066cc;
+            font-size: 1.2rem;
+        }
+
+        .page-header h4::before {
+            content: "\f138 ";
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: #34d399;
         }
 
         .league-section {
             background: white;
-            padding: 30px;
-            margin-bottom: 30px;
-            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 35px;
+            border-radius: 14px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 3px solid transparent;
+        }
+
+        .league-section:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            border-top-color: #34d399;
         }
 
         .league-title {
@@ -89,17 +134,63 @@
         .league-title a {
             color: #0066cc !important;
             text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 10px 20px;
+            border-radius: 10px;
             display: inline-block;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .league-title a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #34d399);
+            transition: width 0.3s ease;
+            border-radius: 2px;
         }
 
         .league-title a:hover {
-            background-color: #f0f8ff;
+            background-color: rgba(0, 102, 204, 0.1);
             color: #0052a3 !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.25);
+        }
+
+        .league-title a:hover::after {
+            width: 100%;
+        }
+
+        table th,
+        table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+            transition: all 0.2s ease;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 102, 204, 0.05);
+            transform: scale(1.01);
+        }
+
+        thead th {
+            font-weight: 700;
+            border-bottom: 2px solid #0066cc;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.08) 0%, rgba(52, 211, 153, 0.08) 100%);
+            color: #0066cc;
         }
 
         .odds-cell {
@@ -108,28 +199,19 @@
             color: #000;
         }
 
-        table th,
-        table td {
-            text-align: center;
-            vertical-align: middle;
-            padding: 10px;
-        }
-
-        table {
-            margin: 0 auto;
-        }
-
-        thead th {
-            font-weight: 600;
-            border-bottom: 2px solid #ddd;
-            background-color: #f5f5f5;
-        }
-
         .last-updated {
             text-align: center;
             margin-top: 30px;
             color: #6c757d;
             font-size: 0.875rem;
+        }
+
+        .last-updated::before {
+            content: "\f017 ";
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 6px;
+            color: #0066cc;
         }
     </style>
     <!-- Google tag (gtag.js) -->
