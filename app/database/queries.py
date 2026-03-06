@@ -148,7 +148,7 @@ class LeagueQueries:
                 SELECT
                 s.team,
                 division,
-                wins || '-' || losses || 
+                coalesce(wins,0) || '-' || coalesce(losses,0) || 
                 CASE WHEN ties > 0 
                      THEN '-' || ties
                      ELSE ''
@@ -221,7 +221,7 @@ class LeagueQueries:
                 SELECT
                 s.team,
                 conference,
-                wins || '-' || losses || 
+                coalesce(wins,0) || '-' || coalesce(losses,0) || 
                 CASE WHEN ties > 0 
                      THEN '-' || ties
                      ELSE ''
@@ -292,7 +292,7 @@ class LeagueQueries:
                 SELECT
                 s.team,
                 division,
-                wins || '-' || losses || 
+                coalesce(wins,0) || '-' || coalesce(losses,0) || 
                 CASE WHEN ties > 0 
                      THEN '-' || ties
                      ELSE ''
