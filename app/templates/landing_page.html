@@ -69,7 +69,7 @@
                     {% if is_continental %}
                     {% set odds_cols = ['po_r4','po_r2','champion'] %}
                     {% else %}
-                    {% set odds_cols = ['top_4','champion'] %}
+                    {% set odds_cols = ['top_5','top_4','champion'] %}
                     {% endif %}
                     <table class="table table-bordered table-hover"
                         style="width: 500px; table-layout: fixed; margin: 0 auto;">
@@ -81,6 +81,7 @@
                                 <th style="width:100px;">Semifinal (%)</th>
                                 <th style="width:100px;">Final (%)</th>
                                 {% else %}
+                                <th style="width:100px;">Top 5 (%)</th>
                                 <th style="width:100px;">Top 4 (%)</th>
                                 {% endif %}
                                 <th style="width:100px;">Champion (%)</th>

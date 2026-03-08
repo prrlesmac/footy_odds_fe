@@ -61,9 +61,9 @@
             {% set odds_cols = ['direct_to_round_of_16','po_r32','po_r16','po_r8','po_r4','po_r2','champion'] %}
             {% else %}
             {% if has_playoff %}
-            {% set odds_cols = ['relegation_direct', 'relegation_playoff', 'top_4', 'champion'] %}
+            {% set odds_cols = ['relegation_direct', 'relegation_playoff','top_5', 'top_4', 'champion'] %}
             {% else %}
-            {% set odds_cols = ['relegation_direct', 'top_4', 'champion'] %}
+            {% set odds_cols = ['relegation_direct','top_5', 'top_4', 'champion'] %}
             {% endif %}
             {% endif %}
             <div class="navigation-controls">
@@ -96,6 +96,7 @@
                         {% if has_playoff %}
                         <th style="width:120px;">Relegation Playoffs (%)</th>
                         {% endif %}
+                        <th style="width:120px;">Top 5 (%)</th>
                         <th style="width:120px;">Top 4 (%)</th>
                         <th style="width:120px;">Champion (%)</th>
                         {% endif %}
