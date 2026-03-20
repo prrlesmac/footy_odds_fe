@@ -26,6 +26,10 @@ class LeagueQueries:
                 THEN 0
                 ELSE top_4
                 END AS top_4_floor,
+                CASE WHEN top_5 <= 0.015
+                THEN 0
+                ELSE top_5
+                END AS top_5_floor,
                 CASE WHEN relegation_direct <= 0.015
                 THEN 0
                 ELSE relegation_direct
@@ -53,7 +57,10 @@ class LeagueQueries:
                 league,
                 champion_floor DESC,
                 top_4_floor DESC,
+                top_5_floor DESC,
                 relegation_direct_floor ASC,
+                relegation_playoff ASC,
+                pts DESC,
                 elo DESC
         """)
     
@@ -127,6 +134,7 @@ class LeagueQueries:
                 po_r8_floor DESC,
                 po_r16_floor DESC,
                 po_r32_floor DESC,
+                pts DESC,
                 elo DESC
         """)
     
