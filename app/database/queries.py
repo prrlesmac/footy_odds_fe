@@ -150,7 +150,73 @@ class LeagueQueries:
             WHERE played='N'
             ORDER BY DATE   
         """)
+
+    @staticmethod
+    def get_fifa_wc_data():
+         return text("""
+            WITH CTE AS (
+                SELECT
+                s.team,
+                division,
+                elo,
+                po_r32,
+                po_r16,
+                po_r8,  
+                po_r4,
+                po_r2,
+                po_champion,
+                s.updated_at,
+                CASE WHEN po_champion <= 0.015
+                THEN 0
+                ELSE po_champion
+                END AS po_champion_floor,
+                CASE WHEN po_r2 <= 0.015
+                THEN 0
+                ELSE po_r2
+                END AS po_r2_floor,
+                CASE WHEN po_r4 <= 0.015
+                THEN 0
+                ELSE po_r4
+                END AS po_r4_floor,
+                CASE WHEN po_r8 <= 0.015
+                THEN 0
+                ELSE po_r8
+                END AS po_r8_floor,
+                CASE WHEN po_r16 <= 0.015
+                THEN 0
+                ELSE po_r16
+                END AS po_r16_floor
+                FROM public.sim_standings_fifa_wc s  
+                LEFT JOIN public.current_elos_fifa_wc c 
+                ON s.team = c.club        
+                LEFT JOIN public.teams_fifa_wc t
+                ON s.team = t.team               
+            )
+            SELECT 
+                team,
+                division,
+                elo,
+                po_r32,
+                po_r16,
+                po_r8,  
+                po_r4,
+                po_r2,
+                po_champion AS champion,
+                'FIFA_WC' AS league,
+                updated_at
+            FROM CTE
+            ORDER by
+                league,
+                po_champion_floor DESC,
+                po_r2_floor DESC,
+                po_r4_floor DESC,
+                po_r8_floor DESC,
+                po_r16_floor DESC,
+                po_r32 DESC,
+                elo DESC
+        """)
     
+
     @staticmethod
     def get_nfl_league_data():
          return text("""

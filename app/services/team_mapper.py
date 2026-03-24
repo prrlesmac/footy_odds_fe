@@ -1,4 +1,5 @@
 import re
+import unicodedata
 
 TEAM_NAME_MAP = {
     "Eintracht Frankfurt": "Eint Frankfurt",
@@ -183,11 +184,17 @@ TEAM_BADGE_MAP = {
     "Zrinjski Mostar": "zrinjski.football-logos.cc.png"
 }
 
+def normalize(text):
+    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
+
 def map_team_name(db_name: str) -> str:
     return TEAM_NAME_MAP.get(db_name, db_name)
 
 def map_team_logo_path(db_name: str) -> str:
     return TEAM_BADGE_MAP.get(db_name, db_name)
+
+def map_fifa_team_logo_path(db_name: str) -> str:
+    return re.sub(r'[^a-z0-9_ ]', '', normalize(db_name).lower()).replace("'", '-').replace(' ', '-') + '-national-team.football-logos.cc.png'
 
 def map_us_team_logo_path(db_name: str) -> str:
     return re.sub(r'[^a-z0-9_]', '', db_name.lower().replace(' ', '_')) + '_logo_primary.png'

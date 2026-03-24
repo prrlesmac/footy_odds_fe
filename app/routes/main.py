@@ -116,6 +116,28 @@ def league_detail_mlb():
         updated_at=updated_at
     )
 
+@main_bp.route('/FIFA_WC')
+def league_detail_fifa_wc():
+    """Detailed view for a specific league."""
+    league_data = LeagueService.get_all_fifa_wc_data()
+
+    if "FIFA_WC" not in league_data:
+        return "League not found", 404
+    
+    standings = league_data["FIFA_WC"]["standings"]
+    fixtures = league_data["FIFA_WC"]["fixtures"]
+    leagues = LeagueService.get_league_names()
+    updated_at = standings[0].get('updated_at') if standings else None
+
+    return render_template(
+        'fifa_wc_odds.html',
+        standings=standings,
+        fixtures=fixtures,
+        leagues=leagues,
+        selected_league="FIFA_WC",
+        updated_at=updated_at
+    )
+
 @main_bp.route('/about')
 def about_website():
     """About view. Gives info about the website"""

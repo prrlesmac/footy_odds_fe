@@ -2,7 +2,7 @@ from collections import defaultdict
 from app.database.connection import DatabaseConnection
 from app.database.queries import LeagueQueries
 from app.config.leagues import UEFA_LEAGUE_MAPPING, UEFA_LEAGUE_ORDER
-from app.services.team_mapper import map_team_name, map_team_logo_path, map_us_team_logo_path
+from app.services.team_mapper import map_team_name, map_team_logo_path, map_us_team_logo_path, map_fifa_team_logo_path
 
 class LeagueService:
     """Service class for league-related operations."""
@@ -50,6 +50,32 @@ class LeagueService:
 
         return ordered_dict
 
+    @staticmethod
+    def get_all_fifa_wc_data():
+        """Get organized league data for all leagues."""
+        fifa_wc_data = DatabaseConnection.execute_query(
+            LeagueQueries.get_fifa_wc_data()
+        )
+        # Fetch upcoming matches data
+        fixtures_data = DatabaseConnection.execute_query(
+            LeagueQueries.get_fixtures_data("fixtures_fifa_wc")
+        )
+        league_dict = defaultdict(lambda: defaultdict(list))
+
+        # Convert to dictionaries and group by league
+        for row in fifa_wc_data:
+            row_dict = row._asdict()
+            row_dict['logo_file'] = map_fifa_team_logo_path(row_dict['team'])
+            league_dict["FIFA_WC"]["standings"].append(row_dict)
+
+        for row in fixtures_data:
+            row_dict = row._asdict()
+            row_dict['logo_file_home'] = map_fifa_team_logo_path(row_dict['home'])
+            row_dict['logo_file_away'] = map_fifa_team_logo_path(row_dict['away'])
+            league_dict["FIFA_WC"]["fixtures"].append(row_dict)
+        
+        return league_dict
+    
     @staticmethod
     def get_all_nfl_data():
         """Get organized league data for all leagues."""
