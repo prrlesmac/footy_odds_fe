@@ -9,7 +9,7 @@ class LeagueQueries:
             WITH CTE AS (
                 SELECT 
                 s.team,
-                elo,
+                COALESCE(elo,0) AS elo,
                 pts,
                 champion,
                 top_4,
@@ -70,7 +70,7 @@ class LeagueQueries:
             WITH CTE AS (
                 SELECT 
                 s.team,
-                elo,
+                COALESCE(elo,0) AS elo,
                 pts,
                 direct_to_round_of_16,
                 po_r32,
@@ -158,7 +158,7 @@ class LeagueQueries:
                 SELECT
                 s.team,
                 division,
-                elo,
+                COALESCE(elo,0) AS elo,
                 po_r32,
                 po_r16,
                 po_r8,  
@@ -230,7 +230,7 @@ class LeagueQueries:
                      ELSE ''
                      END
                 AS record,
-                elo,
+                COALESCE(elo,0) AS elo,
                 first_round_bye,
                 po_r16,
                 po_r8,  
@@ -303,7 +303,7 @@ class LeagueQueries:
                      ELSE ''
                      END
                 AS record,
-                elo,
+                COALESCE(elo,0) AS elo,
                 po_r16,
                 po_r8,  
                 po_r4,
@@ -374,7 +374,7 @@ class LeagueQueries:
                      ELSE ''
                      END
                 AS record,
-                elo,
+                COALESCE(elo,0) AS elo,
                 po_r16,
                 po_r8,  
                 po_r4,
