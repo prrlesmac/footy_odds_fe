@@ -95,49 +95,41 @@ body {
    HEADERS & SECTIONS
    ============================================ */
 .page-header {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.08) 0%, rgba(52, 211, 153, 0.08) 100%);
+    background: linear-gradient(135deg, #e0e7ef 0%, #f5f7fa 100%);
     padding: 35px;
     margin-bottom: 35px;
-    border-radius: 14px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0, 42, 90, 0.08);
     text-align: left;
-    border-left: 4px solid #0066cc;
+    border-left: 5px solid #3b82f6;
 }
 
 .page-header h1 {
     margin: 0 0 15px 0;
     font-weight: 700;
-    color: #0066cc;
+    color: #1e293b;
     font-size: 2.8rem;
 }
 
 .page-header h1::before {
-    content: "\f05a ";
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    margin-right: 15px;
-    color: #34d399;
+    content: "";
 }
 
 .page-header h4 {
     margin: 0;
     font-weight: 600;
-    color: #0066cc;
-    font-size: 1.1rem;
+    color: #334155;
+    font-size: 1.15rem;
 }
 
 .page-header h4::before {
-    content: "\f138 ";
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    margin-right: 10px;
-    color: #34d399;
+    content: "";
 }
 
 .page-header p {
     margin: 0;
     font-size: 1.1rem;
-    color: #555;
+    color: #64748b;
     font-weight: 500;
 }
 
@@ -539,6 +531,7 @@ select:focus {
 }
 
 @media (max-width: 768px) {
+
     .main-container,
     .main-container.wide {
         max-width: 100%;
