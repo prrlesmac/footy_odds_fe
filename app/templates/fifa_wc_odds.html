@@ -77,7 +77,6 @@
                                 alt="{{ row['team'] }} logo" style="height:20px; width:auto;">
                             <div>
                                 {{ row['team'] }}
-                                <span style="color:#888; font-size:0.7em;">{{ row['pts'] }} pts</span>
                             </div>
                         </td>
                         </td>
@@ -118,7 +117,7 @@
                                 <td>
                                     <div
                                         style="display:flex; align-items:center;justify-content:center; gap:8px; white-space:nowrap;">
-                                        <img src="{{ url_for('static', filename='assets/logos/uefa/' + fixture['logo_file_home']) }}"
+                                        <img src="{{ url_for('static', filename='assets/logos/fifa/' + fixture['logo_file_home']) }}"
                                             alt="{{ fixture.home }} logo" style="height:20px; width:auto;">
                                         <span class="team-name">{{ fixture.home }}</span>
                                     </div>
@@ -128,7 +127,7 @@
                                 <td>
                                     <div
                                         style="display:flex; align-items:center;justify-content:center; gap:8px; white-space:nowrap;">
-                                        <img src="{{ url_for('static', filename='assets/logos/uefa/' + fixture['logo_file_away']) }}"
+                                        <img src="{{ url_for('static', filename='assets/logos/fifa/' + fixture['logo_file_away']) }}"
                                             alt="{{ fixture.away }} logo" style="height:20px; width:auto;">
                                         <span class="team-name">{{ fixture.away }}</span>
                                     </div>
