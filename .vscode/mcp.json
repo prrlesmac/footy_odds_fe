@@ -1,0 +1,23 @@
+{
+    "servers": {
+        "postgres": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-postgres",
+                "postgresql://${env:DB_USER}:${env:DB_PASSWORD}@${env:DB_HOST}:${env:DB_PORT}/${env:DB_NAME}"
+            ],
+            "envFile": "${workspaceFolder}/.env"
+        }
+    },
+    "toolSets": {
+        "db-readonly": {
+            "tools": [
+                "postgres_query",
+                "postgres_list_tables",
+                "postgres_describe_table"
+            ],
+            "description": "Read-only Postgres tools"
+        }
+    }
+}
