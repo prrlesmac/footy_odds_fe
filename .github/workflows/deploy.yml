@@ -22,7 +22,7 @@ jobs:
 
       - name: Inject environment variables into app.yaml
         run: |
-          cat <<EOF >> app.yaml
+          cat <<EOF > app.yaml
 
           env_variables:
             DB_USER: "${{ secrets.DB_USER }}"
