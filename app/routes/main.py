@@ -10,11 +10,13 @@ def index():
     nfl_data = LeagueService.get_all_nfl_data()
     nba_data = LeagueService.get_all_nba_data()
     mlb_data = LeagueService.get_all_mlb_data()
+    fifa_wc_data = LeagueService.get_all_fifa_wc_data()
     return render_template('landing_page.html',
                            footy_league_data=footy_league_data,
                            nfl_data=nfl_data,
                            nba_data=nba_data,
-                           mlb_data=mlb_data)
+                           mlb_data=mlb_data,
+                           fifa_wc_data=fifa_wc_data)
 
 @main_bp.route('/league')
 def league_default():

@@ -75,7 +75,7 @@ class LeagueService:
             league_dict["FIFA_WC"]["fixtures"].append(row_dict)
         
         return league_dict
-    
+
     @staticmethod
     def get_all_nfl_data():
         """Get organized league data for all leagues."""
