@@ -118,7 +118,7 @@ def league_detail_mlb():
         updated_at=updated_at
     )
 
-@main_bp.route('/FIFA_WC')
+@main_bp.route('/FIFA World Cup')
 def league_detail_fifa_wc():
     """Detailed view for a specific league."""
     league_data = LeagueService.get_all_fifa_wc_data()

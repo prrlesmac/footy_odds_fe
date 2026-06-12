@@ -51,7 +51,7 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="intl-tab" data-bs-toggle="tab" data-bs-target="#intlFootball" type="button"
                     role="tab">
-                    Int'l Football
+                    International Football
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -125,7 +125,7 @@
                 {% set teams = items["standings"] %}
                 <div class="league-section">
                     <div class="league-title">
-                        <a href="{{ url_for('main.league_detail_fifa_wc') }}">{{ league }} →</a>
+                        <a href="{{ url_for('main.league_detail_fifa_wc') }}">FIFA World Cup →</a>
                     </div>
                     {% set odds_cols = ['po_r4','po_r2','champion'] %}
                     <table class="table table-bordered table-hover"
